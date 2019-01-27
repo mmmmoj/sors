@@ -1,15 +1,16 @@
 import React from 'react'
 import GlobalStore from './store'
 
-export function Connect(Component, name, initialState) {
+export function InjectStore(Component, store) {
   return class extends React.Component {
     constructor(props) {
       super(props)
-      const state = initialState || {}
-      GlobalStore.addStore(name)
+      this.storeName = store.getName()
+      const state = store.getInitState() || {}
+      GlobalStore.addStore(this.storeName)
       Object.keys(state).forEach((node) => {
-        GlobalStore.addNode(name, node)
-        GlobalStore.setStore(name, node, state[node])
+        GlobalStore.addNode(this.storeName, node)
+        GlobalStore.setStore(this.storeName, node, state[node])
       })
       this.on = this.on.bind(this)
       this.onStore = this.onStore.bind(this)
@@ -26,18 +27,19 @@ export function Connect(Component, name, initialState) {
       if (nodes) {
         if (Array.isArray(nodes)) {
           nodes.forEach((node) => {
-            GlobalStore.addListener(name, node, fn)
-            this.listeners.push({ store: name, node, fn })
+            GlobalStore.addListener(this.storeName, node, fn)
+            this.listeners.push({ store: this.storeName, node, fn })
           })
         } else {
-          GlobalStore.addListener(name, nodes, fn)
-          this.listeners.push({ store: name, nodes, fn })
+          GlobalStore.addListener(this.storeName, nodes, fn)
+          this.listeners.push({ store: this.storeName, nodes, fn })
         }
       }
     }
 
-    onStore(storeName, nodes, fn) {
-      if (storeName && nodes) {
+    onStore(store, nodes, fn) {
+      if (store && nodes) {
+        const storeName = store.getName()
         if (Array.isArray(nodes)) {
           nodes.forEach((node) => {
             GlobalStore.addListener(storeName, node, fn)
@@ -50,11 +52,13 @@ export function Connect(Component, name, initialState) {
       }
     }
 
-    getStore(storeName, nodeName) {
+    getStore(store, nodeName) {
+      const storeName = store.getName()
       return GlobalStore.getStore(storeName, nodeName)
     }
 
-    setStore(storeName, nodeName, data) {
+    setStore(store, nodeName, data) {
+      const storeName = store.getName()
       GlobalStore.setStore(storeName, nodeName, data)
     }
 

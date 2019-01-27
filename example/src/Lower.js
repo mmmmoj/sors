@@ -1,5 +1,12 @@
 import React, { Component } from 'react'
-import Connect from 'global-store'
+import { InjectStore, Store } from 'global-store'
+
+import { appStore } from './App'
+
+const initialState = {
+}
+
+export const lowerStore = new Store('upper', initialState)
 
 class Lower extends Component {
   constructor(props) {
@@ -8,9 +15,9 @@ class Lower extends Component {
   }
 
   onClick() {
-    let val = Number(this.props.getStore('index', 'id'));
+    let val = Number(this.props.getStore(appStore, 'id'));
     val += 1;
-    this.props.setStore('index', 'id', val)
+    this.props.setStore(appStore, 'id', val)
   }
 
   render() {
@@ -22,4 +29,4 @@ class Lower extends Component {
   }
 }
 
-export default Connect(Lower, 'lower', {});
+export default InjectStore(Lower, lowerStore);

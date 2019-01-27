@@ -1,14 +1,20 @@
 import React, { Component } from 'react'
 
-import Connect from 'global-store'
+import { InjectStore, Store } from 'global-store'
 
 import Upper from './upper';
 
 import Lower from './Lower';
 
+const initialState = {
+  id: 10,
+}
+
+export const appStore = new Store('app', initialState)
+
 class App extends Component {
   render () {
-    this.props.on('id', (val) => console.log('changed', val, 'original', this.props.getStore('index', 'id')))
+    this.props.on('id', (val) => console.log('changed', val, 'original', this.props.getStore(appStore, 'id')))
     return (
       <div>
         <Upper />
@@ -19,4 +25,4 @@ class App extends Component {
   }
 }
 
-export default Connect(App, 'index', {id: 10})
+export default InjectStore(App, appStore)

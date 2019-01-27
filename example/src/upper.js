@@ -1,14 +1,20 @@
 import React, { Component } from 'react'
-import Connect from 'global-store'
+import { InjectStore, Store } from 'global-store'
+import { appStore } from './App'
+
+const initialState = {
+}
+
+export const upperStore = new Store('upper', initialState)
 
 class Upper extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      counter: props.getStore('index', 'id')
+      counter: props.getStore(appStore, 'id')
     }
     this.onIdChange = this.onIdChange.bind(this)
-    props.onStore('index', 'id', this.onIdChange)
+    props.onStore(appStore, 'id', this.onIdChange)
   }
 
   onIdChange(newVal) {
@@ -22,4 +28,4 @@ class Upper extends Component {
   }
 }
 
-export default Connect(Upper, 'upper', {});
+export default InjectStore(Upper, upperStore);

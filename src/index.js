@@ -1,3 +1,2 @@
-import { Connect } from './connect'
-
-export default Connect
+export { InjectStore } from './connect'
+export { Store } from './helpers/store'

@@ -1,8 +1,16 @@
 'use strict';
 
+Object.defineProperty(exports, '__esModule', { value: true });
+
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
 var React = _interopDefault(require('react'));
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+  return typeof obj;
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+};
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -141,7 +149,7 @@ var Store = function () {
 
 var GlobalStore = new Store();
 
-function Connect(Component, name, initialState) {
+function InjectStore(Component, store) {
   return function (_React$Component) {
     inherits(_class, _React$Component);
 
@@ -150,11 +158,12 @@ function Connect(Component, name, initialState) {
 
       var _this = possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this, props));
 
-      var state = initialState || {};
-      GlobalStore.addStore(name);
+      _this.storeName = store.getName();
+      var state = store.getInitState() || {};
+      GlobalStore.addStore(_this.storeName);
       Object.keys(state).forEach(function (node) {
-        GlobalStore.addNode(name, node);
-        GlobalStore.setStore(name, node, state[node]);
+        GlobalStore.addNode(_this.storeName, node);
+        GlobalStore.setStore(_this.storeName, node, state[node]);
       });
       _this.on = _this.on.bind(_this);
       _this.onStore = _this.onStore.bind(_this);
@@ -179,21 +188,22 @@ function Connect(Component, name, initialState) {
         if (nodes) {
           if (Array.isArray(nodes)) {
             nodes.forEach(function (node) {
-              GlobalStore.addListener(name, node, fn);
-              _this2.listeners.push({ store: name, node: node, fn: fn });
+              GlobalStore.addListener(_this2.storeName, node, fn);
+              _this2.listeners.push({ store: _this2.storeName, node: node, fn: fn });
             });
           } else {
-            GlobalStore.addListener(name, nodes, fn);
-            this.listeners.push({ store: name, nodes: nodes, fn: fn });
+            GlobalStore.addListener(this.storeName, nodes, fn);
+            this.listeners.push({ store: this.storeName, nodes: nodes, fn: fn });
           }
         }
       }
     }, {
       key: 'onStore',
-      value: function onStore(storeName, nodes, fn) {
+      value: function onStore(store, nodes, fn) {
         var _this3 = this;
 
-        if (storeName && nodes) {
+        if (store && nodes) {
+          var storeName = store.getName();
           if (Array.isArray(nodes)) {
             nodes.forEach(function (node) {
               GlobalStore.addListener(storeName, node, fn);
@@ -207,12 +217,14 @@ function Connect(Component, name, initialState) {
       }
     }, {
       key: 'getStore',
-      value: function getStore(storeName, nodeName) {
+      value: function getStore(store, nodeName) {
+        var storeName = store.getName();
         return GlobalStore.getStore(storeName, nodeName);
       }
     }, {
       key: 'setStore',
-      value: function setStore(storeName, nodeName, data) {
+      value: function setStore(store, nodeName, data) {
+        var storeName = store.getName();
         GlobalStore.setStore(storeName, nodeName, data);
       }
     }, {
@@ -225,5 +237,39 @@ function Connect(Component, name, initialState) {
   }(React.Component);
 }
 
-module.exports = Connect;
+var Store$1 = function () {
+  function Store(name, initState) {
+    classCallCheck(this, Store);
+
+    this.setName(name);
+    this.setInitState(initState);
+  }
+
+  createClass(Store, [{
+    key: 'setName',
+    value: function setName(name) {
+      this.name = name;
+    }
+  }, {
+    key: 'getName',
+    value: function getName() {
+      return this.name;
+    }
+  }, {
+    key: 'setInitState',
+    value: function setInitState(initState) {
+      if (!initState || (typeof initState === 'undefined' ? 'undefined' : _typeof(initState)) !== 'object') throw new Error('unspported type');
+      this.initState = initState;
+    }
+  }, {
+    key: 'getInitState',
+    value: function getInitState() {
+      return this.initState;
+    }
+  }]);
+  return Store;
+}();
+
+exports.InjectStore = InjectStore;
+exports.Store = Store$1;
 //# sourceMappingURL=index.js.map
