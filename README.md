@@ -84,10 +84,15 @@ export default InjectStore(Example, 'mainStore', )
 ```
 
 ### API
-**props.getStore(<store>, <node>):** used to get node value from store
-**props.setStore(<store>, <node>, data):** used to set node value = data in store
-**props.on(<node>, fn):** subscribe "fn" to get updated value when node(s) in the current store changes
-**props.on(<store>,<node>, fn):** subscribe "fn" to get updated value when node(s) in store changes
+
+**props.getStore(store, node):** used to get node value from store
+
+**props.setStore(store, node, data):** used to set node value = data in store
+
+**props.on(node, fn):** subscribe "fn" to get updated value when node(s) in the current store changes
+
+**props.on(store,node, fn):** subscribe "fn" to get updated value when node(s) in store changes
+
 
 ## License
 
