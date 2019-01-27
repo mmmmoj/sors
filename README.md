@@ -91,7 +91,7 @@ export default InjectStore(Example, 'mainStore', )
 
 **props.on(node, fn):** subscribe "fn" to get updated value when node(s) in the current store changes
 
-**props.on(store,node, fn):** subscribe "fn" to get updated value when node(s) in store changes
+**props.onStore(store,node, fn):** subscribe "fn" to get updated value when node(s) in store changes
 
 
 ## License
