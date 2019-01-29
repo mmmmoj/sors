@@ -80,7 +80,7 @@ class Example extends Component {
   }
 }
 
-export default InjectStore(Example, 'mainStore', )
+export default InjectStore(Example, mainStore, )
 ```
 
 ### API

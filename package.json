@@ -1,10 +1,12 @@
 {
   "name": "sors",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple Observable Reactjs Store",
   "author": "Mojahed Elbakre",
   "license": "MIT",
   "repository": "https://github.com/mmmmoj/global-store",
+  "keywords": ["reactjs", "store", "observable"],
+  "homepage": "https://github.com/mmmmoj/global-store#readme",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "jsnext:main": "dist/index.es.js",
