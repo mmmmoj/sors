@@ -1,8 +1,8 @@
-# global-store
+# Simple Observable Reactjs Store (SORS)
 
 > Simple Observable Reactjs Store is a simple library to manage reactjs store. It uses HOC and javascript observable pattern. It can be usefull if you looking for a simple way to manage your reactjs app.
 
-[![NPM](https://img.shields.io/npm/v/global-store.svg)](https://www.npmjs.com/package/global-store) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/sors.svg)](https://www.npmjs.com/package/sors) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Install
 
